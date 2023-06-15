@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="662.0" prefWidth="787.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mangastorecliente.Controler.ControleLogin">
+   <children>
+      <Label layoutX="72.0" layoutY="14.0" prefHeight="59.0" prefWidth="255.0" text="Mangá Store">
+         <font>
+            <Font name="Impact" size="47.0" />
+         </font>
+      </Label>
+      <Label layoutX="25.0" layoutY="302.0" prefHeight="38.0" prefWidth="349.0" text="Se não possuir um cadastro na loja, clique em &quot;Cadastre-se&quot;">
+         <font>
+            <Font name="Impact" size="14.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="imagem_manga" fitHeight="238.0" fitWidth="450.0" layoutX="363.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../java/com/example/mangastorecliente/Drawble/Best-Manga-Panels-of-All-Time.jpg" />
+         </image>
+      </ImageView>
+      <Label layoutX="380.0" layoutY="252.0" prefHeight="25.0" prefWidth="109.0" text="Nossa Historia :">
+         <font>
+            <Font name="Impact" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="382.0" layoutY="277.0" prefHeight="209.0" prefWidth="386.0" text="Meu nome é Hiroshi, e vou te contar como criei a minha loja online de&#10;mangás, a Mangá Store. Desde criança, eu sempre fui apaixonado por&#10;mangás. Passava horas lendo e colecionando essas incríveis histórias &#10;em quadrinhos japonesas. Era como se cada página me transportasse&#10;para um mundo completamente novo e cheio de aventuras.&#10;&#10;Com o tempo, percebi que queria compartilhar essa paixão com o&#10;mundo. Queria criar um lugar onde os fãs de mangá pudessem&#10;encontrar todas as suas obras favoritas de forma fácil e conveniente.&#10;Foi assim que a ideia da Mangá Store começou a se formar em&#10;minha mente." />
+      <ImageView fx:id="imagem_hiroshi" fitHeight="150.0" fitWidth="200.0" layoutX="508.0" layoutY="495.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../java/com/example/mangastorecliente/Drawble/hiroshi.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="29.0" layoutY="137.0" prefHeight="38.0" prefWidth="44.0" text="Login :">
+         <font>
+            <Font name="Impact" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="22.0" layoutY="186.0" prefHeight="38.0" prefWidth="44.0" text="Senha :">
+         <font>
+            <Font name="Impact" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="textfild_login" layoutX="73.0" layoutY="144.0" />
+      <TextField fx:id="textfild_senha" layoutX="73.0" layoutY="192.0" />
+      <Button fx:id="button_login" layoutX="148.0" layoutY="252.0" mnemonicParsing="false" onAction="#entrarTelaLoja" prefHeight="25.0" prefWidth="61.0" text="Logar-se">
+         <font>
+            <Font name="Impact" size="12.0" />
+         </font>
+      </Button>
+      <Button fx:id="button_Cadastrar" layoutX="139.0" layoutY="365.0" mnemonicParsing="false" onAction="#entrarTelaCadastro" text="Cadastrar-se" textAlignment="CENTER">
+         <font>
+            <Font name="Impact" size="13.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
