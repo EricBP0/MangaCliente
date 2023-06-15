@@ -3,8 +3,12 @@ package com.example.mangastorecliente.Controler;
 import com.example.mangastorecliente.Connection.ConnectionFactory;
 import com.example.mangastorecliente.DAO.LoginDAO;
 import com.example.mangastorecliente.DAO.MangaDAO;
+import com.example.mangastorecliente.DAO.VendaDAO;
+import com.example.mangastorecliente.FinalizacaoFX;
+import com.example.mangastorecliente.LojaFX;
 import com.example.mangastorecliente.Model.Login;
 import com.example.mangastorecliente.Model.Manga;
+import com.example.mangastorecliente.Model.Venda;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,6 +18,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.stage.Stage;
+
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.net.URL;
@@ -24,11 +30,16 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ControleLoja implements Initializable {
 
     @FXML
     private Button button_AddCarrinho;
+
+    @FXML
+    private Button button_Remover;
 
     @FXML
     private ChoiceBox<String> choiceBox_anime;
@@ -40,9 +51,17 @@ public class ControleLoja implements Initializable {
     private ListView<String> listView_listaMangas;
 
     @FXML
+    private ListView<String> listview_ItensSelecionados;
+
+    @FXML
     private Label label_Confirmacao;
     @FXML
     private Button button_filtrar;
+
+    @FXML
+    private Label label_total;
+
+    private int idComprador;
 
 
     @Override
@@ -60,6 +79,7 @@ public class ControleLoja implements Initializable {
             Login login = listlogin.get();
 
             label_nomeLogin.setText(login.getNome());
+            idComprador = login.getId();
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao buscar prato no banco de dados", e);
         }
@@ -87,19 +107,6 @@ public class ControleLoja implements Initializable {
         choiceBox_anime.setItems(null);
 
         choiceBox_anime.setItems(listAnimes);
-
-        try {
-            Connection connection = ConnectionFactory.getConnection();
-            LoginDAO loginDAO = new LoginDAO();
-            String query = "SELECT idCliente FROM logado";
-            PreparedStatement statement = connection.prepareStatement(query);
-            ResultSet resultSet = statement.executeQuery();
-
-            resultSet.next();
-            loginDAO.desLogado(resultSet.getInt("idCliente"));
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
 
     }
 
@@ -142,8 +149,55 @@ public class ControleLoja implements Initializable {
         if(manga == null || manga.isEmpty()){
             label_Confirmacao.setText("Nenhum Mangá selecionado");
         }else{
-            label_Confirmacao.setText("Mangá selecionado :" + manga.substring(3, 5));
+            label_Confirmacao.setText("Mangá selecionado ID :  " + manga.substring(3, 5));
         }
+    }
+    @FXML
+    void adicionarItemCarrinho(ActionEvent event) {
+        String manga = listView_listaMangas.getSelectionModel().getSelectedItem();
+        listview_ItensSelecionados.getItems().add(manga);
+
+    }
+
+    @FXML
+    void irTeladeFinalizacao(ActionEvent event) {
+        ObservableList<String> listaMangas =  listview_ItensSelecionados.getItems();
+        int numero = listaMangas.size();
+        double preco = 0;
+        MangaDAO mangaDAO = new MangaDAO();
+        LoginDAO loginDAO = new LoginDAO();
+        for (int i = 0; i < numero; i++){
+            VendaDAO vendaDAO = new VendaDAO();
+            Venda venda = new Venda();
+            Manga manga = new Manga();
+            String stringItem = listaMangas.get(i);
+            int id = Integer.parseInt(stringItem.substring(3,5).strip());
+             Optional<Manga> listManga = mangaDAO.findById(id);
+             manga = listManga.get();
+             venda.setItens(manga.getId());
+             venda.setIdComprador(idComprador);
+             venda.setPreco(manga.getPreco());
+             venda.setSituacao("aberto");
+             vendaDAO.create(venda);
+             preco = preco + manga.getPreco();
+        }
+        VendaDAO vendaDAO = new VendaDAO();
+        Venda venda = new Venda();
+
+        FinalizacaoFX finalizacaoFX = new FinalizacaoFX();
+        LojaFX.getStage().close();
+        try {
+            finalizacaoFX.start(new Stage());
+        } catch (Exception e) {
+            Logger.getLogger(ControleCadastro.class.getName())
+                    .log(Level.SEVERE, null, e);
+        }
+    }
+
+    @FXML
+    void removerItemCarinho(ActionEvent event) {
+        String manga = listview_ItensSelecionados.getSelectionModel().getSelectedItem();
+        listview_ItensSelecionados.getItems().remove(manga);
     }
 
 }

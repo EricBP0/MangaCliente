@@ -180,12 +180,11 @@ public class LoginDAO implements ILoginDAO{
         }
     }
 
-    public void desLogado(int id){
+    public void desLogado(){
         try (Connection connection = ConnectionFactory.getConnection()) {
-            String query = "DELETE FROM logado WHERE idCliente = ?";
+            String query = "DELETE FROM logado WHERE idCliente > 0";
 
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setInt(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("Erro a excluir o cadastro", e);
