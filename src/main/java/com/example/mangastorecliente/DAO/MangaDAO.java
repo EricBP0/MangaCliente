@@ -125,11 +125,12 @@ public class MangaDAO implements IMangaDAO{
         List<Manga> listaManga = new ArrayList<>();
 
         try (Connection connection = ConnectionFactory.getConnection()) {
-            String query = "SELECT * FROM manga WHERE anime = ?";
+            String query = "SELECT * FROM manga WHERE anime = ? ";
 
             PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1,  filter);
+
             ResultSet resultSet = statement.executeQuery();
-            statement.setString(1, filter );
 
             while (resultSet.next()) {
                 Manga manga = new Manga(

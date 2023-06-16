@@ -122,14 +122,16 @@ public class ControleLoja implements Initializable {
 
     @FXML
     void filtrarMangas(ActionEvent event) {
-        String anime = choiceBox_anime.getSelectionModel().getSelectedItem();
+        String anime = choiceBox_anime.getSelectionModel().getSelectedItem().strip();
 
         if(!anime.isEmpty()) {
             try {
                 listView_listaMangas.getItems().clear();
+
                 MangaDAO mangaDAO = new MangaDAO();
 
                 List<Manga> listMangas = mangaDAO.findAllByFilter(anime);
+
                 for (Manga manga : listMangas) {
                     StringBuilder sb = new StringBuilder();
                     sb = sb.append("ID: ").append(manga.getId()).append(" - Anime:  ").append(manga.getAnime()).append(" - Edição : ").append(manga.getEdicao())

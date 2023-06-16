@@ -79,10 +79,5 @@
             <Font name="Impact" size="15.0" />
          </font>
       </Label>
-      <Label fx:id="label_total" layoutX="900.0" layoutY="724.0">
-         <font>
-            <Font name="Impact" size="15.0" />
-         </font>
-      </Label>
    </children>
 </AnchorPane>
